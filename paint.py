@@ -1,8 +1,8 @@
 # NeoPixel library strandtest example
-# Author: Tony DiCola (tony@tonydicola.com)
+# Author: ANsel Zandegran
+# Thanks to  Tony DiCola (tony@tonydicola.com) for the SPI interface code
 #
-# Direct port of the Arduino NeoPixel library strandtest example.  Showcases
-# various animations on a strip of NeoPixels.
+
 import  Image, time
 from array import *
 import struct
@@ -19,10 +19,9 @@ LED_BRIGHTNESS = 255     # Set to 0 for darkest and 255 for brightest
 LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
 
 
-def check():
+def pushPixels():
 	for x in range(width):
 			for i in range(strip.numPixels()):
-				#print str(x)+" , "+str(i)
 				value = pixels[x, i]
 				#colortoset=getColor(value[0],value[1],value[2])
 				colortoset=getColor(gamma[value[1]],gamma[value[0]],gamma[value[2]])
@@ -77,10 +76,8 @@ if __name__ == '__main__':
   177,180,182,184,186,189,191,193,196,198,200,203,205,208,210,213,
   215,218,220,223,225,228,231,233,236,239,241,244,247,249,252,255 ]
 	 
-	# Create list of bytearrays, one for each column of image.
-	# R, G, B byte per pixel, plus extra '0' byte at end for latch.
+	
 	print "Allocating..."
-	# Creates a list containing 5 lists, each of 8 items, all set to 0
 	column = [[0 for y in range(height*3)] for x in range(width)] 
 	# Convert 8-bit RGB image into column-wise GRB bytearray list.
 	print "Converting..."
@@ -94,13 +91,5 @@ if __name__ == '__main__':
 			column[x][y3 + 2] = gamma[value[2]]
 	print ('Press Ctrl-C to quit.')
 	while True:
-		check()
-	# 	for x in range(width):
-	# 		print column[x]
-	# 		for i in range(strip.numPixels()):
-	# 			colortoset=getColor(column[x][i*3], column[x][i*3+1], column[x][i*3+2])
-	# 			strip.setPixelColor(i, colortoset)
-	# 		strip.show()
-	# 		time.sleep(0.001)
-	# time.sleep(0.5)
+		pushPixels()
 

@@ -23,18 +23,16 @@ def pushPixels():
 	for x in range(width):
 			for i in range(strip.numPixels()):
 				value = pixels[x, i]
-				#colortoset=getColor(value[0],value[1],value[2])
-				colortoset=getColor(gamma[value[1]],gamma[value[0]],gamma[value[2]])
+				colortoset=getColor(gamma[value[1]],gamma[value[0]],gamma[value[2]]) 
 				strip.setPixelColor(i, colortoset)
 			strip.show()
 			time.sleep(0.003)
 	for i in range(strip.numPixels()):
 		strip.setPixelColor(i, Color(0,0,0))
 	strip.show()
-	time.sleep(2)
+	time.sleep(2) #Sleep for 2 seconds between full cycles
 
 def getColor(r,g,b):
-	#print str(r)+" "+str(g)+" "+str(b)
 	return Color(r,g,b)
 
 
@@ -53,11 +51,7 @@ if __name__ == '__main__':
 	# To do: add resize here if image is not desired height
 
 
-	# Calculate gamma correction table.  This includes
-	# LPD8806-specific conversion (7-bit color w/high bit set).
-	# gamma = [0 for x in range(256)]
-	# for i in range(256):
-	# 	gamma[i] =  0x80 |int(pow(float(i) / 255.0, 2.5) * 127.0 + 0.5)
+	# Gamma Correction Table
 	gamma = [
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,
@@ -79,7 +73,7 @@ if __name__ == '__main__':
 	
 	print "Allocating..."
 	column = [[0 for y in range(height*3)] for x in range(width)] 
-	# Convert 8-bit RGB image into column-wise GRB bytearray list.
+	# Convert 8-bit RGB image to array.
 	print "Converting..."
 	for x in range(width):
 		for y in range(height):
